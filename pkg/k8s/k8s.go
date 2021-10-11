@@ -3,77 +3,68 @@ package k8s
 import (
 	"context"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	k8sdomain "kos/domain/k8s"
+	domain "kos/domain/k8s"
 )
 
-func (k K8sClient) K8sDeployment(d *k8sdomain.Deployment) (*k8sdomain.DeploymentResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sConfigMap(cm *k8sdomain.ConfigMap) (*k8sdomain.ConfigMapResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sSecret(sec *k8sdomain.Secret) (*k8sdomain.SecretResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sCronjob(c *k8sdomain.CronJob) (*k8sdomain.CronjobRespone, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sHorizontalPodAutoscaler(h *k8sdomain.HorizontalPodAutoscaler) (*k8sdomain.HorizontalPodAutoscalerResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sService(h *k8sdomain.Service) (*k8sdomain.ServiceResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sVirtualService(h *k8sdomain.VirtualService) (*k8sdomain.VirtualServiceResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sJob(j *k8sdomain.Job) (*k8sdomain.JobResponse, error) {
-	panic("implement me")
-}
-
-func (k K8sClient) K8sPodsList(ns string) (*[]k8sdomain.PodResponse, error) {
-	podClient := k.clientset.CoreV1().Pods(ns)
-	var responses []k8sdomain.PodResponse
-	var pod k8sdomain.PodResponse
+func (k Client) ListPods(namespace string) (listPods []domain.PodResponse, err error) {
+	podClient := k.clientset.CoreV1().Pods(namespace)
+	var pod domain.PodResponse
 	list, err := podClient.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}else{
 		for _, p:= range list.Items {
 			pod.Pod = p
-			responses = append(responses, pod)
+			listPods = append(listPods, pod)
 		}
 	}
-	return &responses, err
+	return listPods, err
 }
 
-func (k K8sClient) K8sClusterRole(cr *k8sdomain.ClusterRole) (*k8sdomain.ClusterRoleResponse, error) {
+func (k Client) Deployment(d *domain.Deployment) (*domain.DeploymentResponse, error) {
 	panic("implement me")
 }
 
-func (k K8sClient) K8sClusterRoleBinding(crb *k8sdomain.ClusterRoleBinding) (*k8sdomain.ClusterRoleBindingRespone, error) {
+func (k Client) ConfigMap(cm *domain.ConfigMap) (*domain.ConfigMapResponse, error) {
 	panic("implement me")
 }
 
-func (k K8sClient) K8sRole(r *k8sdomain.Role) (*k8sdomain.RoleResponse, error) {
+func (k Client) Secret(sec *domain.Secret) (*domain.SecretResponse, error) {
 	panic("implement me")
 }
 
-func (k K8sClient) K8sRoleBinding(rb *k8sdomain.RoleBinding) (*k8sdomain.RoleBindingResponse, error) {
+func (k Client) Cronjob(c *domain.CronJob) (*domain.CronjobRespone, error) {
 	panic("implement me")
 }
 
-func (k K8sClient) K8sServiceAccount(sa *k8sdomain.ServiceAccount) (*k8sdomain.ServiceAccountResponse, error) {
+func (k Client) HorizontalPodAutoscaler(h *domain.HorizontalPodAutoscaler) (*domain.HorizontalPodAutoscalerResponse, error) {
 	panic("implement me")
 }
 
-func (k K8sClient) K8sCanaryFlagger(cf *k8sdomain.CanaryFlagger) (*k8sdomain.CanaryFlaggerResponse, error) {
+func (k Client) Service(h *domain.Service) (*domain.ServiceResponse, error) {
+	panic("implement me")
+}
+
+func (k Client) Job(j *domain.Job) (*domain.JobResponse, error) {
+	panic("implement me")
+}
+
+func (k Client) ClusterRole(cr *domain.ClusterRole) (*domain.ClusterRoleResponse, error) {
+	panic("implement me")
+}
+
+func (k Client) ClusterRoleBinding(crb *domain.ClusterRoleBinding) (*domain.ClusterRoleBindingRespone, error) {
+	panic("implement me")
+}
+
+func (k Client) Role(r *domain.Role) (*domain.RoleResponse, error) {
+	panic("implement me")
+}
+
+func (k Client) RoleBinding(rb *domain.RoleBinding) (*domain.RoleBindingResponse, error) {
+	panic("implement me")
+}
+
+func (k Client) ServiceAccount(sa *domain.ServiceAccount) (*domain.ServiceAccountResponse, error) {
 	panic("implement me")
 }

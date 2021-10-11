@@ -33,8 +33,8 @@ func (s *server) Run() {
 func initServer() *server {
 	conf := loadConfig()
 
-	domain := k8s.NewK8s()
-	usecase := k8sUseCase.NewK8sUseCase(&domain)
+	domain := k8s.Kubernetes()
+	usecase := k8sUseCase.K8s(&domain)
 	k8sOpsRest := rest.NewK8sOpsRest(usecase)
 	k8sOps := handler.NewK8sOps(k8sOpsRest)
 	handler := handler.NewServer(k8sOps)

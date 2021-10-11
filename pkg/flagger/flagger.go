@@ -1,13 +1,13 @@
-package k8s
+package flagger
 
 import (
 	"flag"
-	"k8s.io/client-go/kubernetes"
+	flagger "github.com/fluxcd/flagger/pkg/client/clientset/versioned"
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	domain "kos/domain/k8s"
+	domain "kos/domain/flagger"
 	"log"
 	"os"
 	"path/filepath"
@@ -16,8 +16,9 @@ import (
 var client *Client
 
 type Client struct {
-	clientset *kubernetes.Clientset
+	clientset *flagger.Clientset
 }
+
 
 func Config() (config *rest.Config, err error){
 	var kubeconfig *string
@@ -41,17 +42,20 @@ func Config() (config *rest.Config, err error){
 	return config, nil
 }
 
-func Kubernetes() domain.K8s {
+func Flagger() domain.Flagger {
 	config, err := Config()
 	if err != nil {
 		log.Panicln("Kubernetes config is error: ", err.Error())
 	}
-	clientset, err := kubernetes.NewForConfig(config)
+	flaggerClientSet, err := flagger.NewForConfig(config)
 	if err != nil {
-		log.Panicln("Failed to create K8s clientset", err.Error())
+		log.Panicln("Failed to create flagger clientset", err.Error())
 	}
 	return &Client{
-		clientset: clientset,
+		clientset: flaggerClientSet,
 	}
 }
 
+func (c Client) CanaryFlagger(cf *domain.CanaryFlagger) (*domain.CanaryFlaggerResponse, error) {
+	panic("implement me")
+}

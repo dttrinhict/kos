@@ -5,11 +5,15 @@ import (
 	"github.com/gin-gonic/gin"
 	usecase "kos/usecases/k8s"
 )
+
+const HTTP_STATUS_OK = 200
+const HTTP_STATUS_BAD_REQUEST = 400
+
 type K8sOpsRest struct {
-	K8sUseCase usecase.K8sUseCase
+	K8sUseCase usecase.Kubernetes
 }
 
-func NewK8sOpsRest(k8sUseCase usecase.K8sUseCase) *K8sOpsRest {
+func NewK8sOpsRest(k8sUseCase usecase.Kubernetes) *K8sOpsRest {
 	return &K8sOpsRest{
 		K8sUseCase: k8sUseCase,
 	}
@@ -23,22 +27,23 @@ func (e *K8sOpsRest) K8sPodsList(ginCtx *gin.Context) {
 		return
 	}
 	if _, ok := req["namespace"]; ok {
-		Response, err := e.K8sUseCase.K8sPodsList(req["namespace"])
+		Response, err := e.K8sUseCase.ListPods(req["namespace"])
 		if err != nil {
 			return
 		}
-			ginCtx.JSON(200, gin.H{
+
+		ginCtx.JSON(HTTP_STATUS_OK, gin.H{
 				"respone": Response,
 			})
 	}else{
-		ginCtx.JSON(503, gin.H{
+		ginCtx.JSON(HTTP_STATUS_BAD_REQUEST, gin.H{
 			"error": "error",
 		})
 	}
 }
 
 func (e *K8sOpsRest) Health(ginCtx *gin.Context)  {
-	ginCtx.JSON(200, gin.H{
+	ginCtx.JSON(HTTP_STATUS_OK, gin.H{
 		"response": "running",
 	})
 }

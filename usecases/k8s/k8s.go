@@ -1,93 +1,83 @@
 package k8s
 
 import (
-	k8sdomain "kos/domain/k8s"
+	domain "kos/domain/k8s"
 )
 
-type K8sUseCaseImpl struct {
-	K8sDomain k8sdomain.K8sDomain
+type KubernetesImpl struct {
+	K8sDomain domain.K8s
 }
 
-type K8sUseCase interface {
-	K8sDeployment(d *k8sdomain.Deployment) (*k8sdomain.DeploymentResponse, error)
-	K8sConfigMap(cm *k8sdomain.ConfigMap) (*k8sdomain.ConfigMapResponse, error)
-	K8sSecret(sec *k8sdomain.Secret) (*k8sdomain.SecretResponse, error)
-	K8sCronjob(cj *k8sdomain.CronJob) (*k8sdomain.CronjobRespone, error)
-	K8sHorizontalPodAutoscaler(hpa *k8sdomain.HorizontalPodAutoscaler) (*k8sdomain.HorizontalPodAutoscalerResponse, error)
-	K8sService(s *k8sdomain.Service) (*k8sdomain.ServiceResponse, error)
-	K8sVirtualService(vs *k8sdomain.VirtualService) (*k8sdomain.VirtualServiceResponse, error)
-	K8sJob(job *k8sdomain.Job) (*k8sdomain.JobResponse, error)
-	K8sPodsList(ns string) (*[]k8sdomain.PodResponse, error)
-	K8sClusterRole(cr *k8sdomain.ClusterRole) (*k8sdomain.ClusterRoleResponse, error)
-	K8sClusterRoleBinding(crb *k8sdomain.ClusterRoleBinding) (*k8sdomain.ClusterRoleBindingRespone, error)
-	K8sRole(role *k8sdomain.Role) (*k8sdomain.RoleResponse, error)
-	K8sRoleBinding(rb *k8sdomain.RoleBinding) (*k8sdomain.RoleBindingResponse, error)
-	K8sServiceAccount(sa *k8sdomain.ServiceAccount) (*k8sdomain.ServiceAccountResponse, error)
-	K8sCanaryFlagger(cf *k8sdomain.CanaryFlagger) (*k8sdomain.CanaryFlaggerResponse, error)
+type Kubernetes interface {
+	Deployment(d *domain.Deployment) (*domain.DeploymentResponse, error)
+	ConfigMap(cm *domain.ConfigMap) (*domain.ConfigMapResponse, error)
+	Secret(sec *domain.Secret) (*domain.SecretResponse, error)
+	Cronjob(cj *domain.CronJob) (*domain.CronjobRespone, error)
+	HorizontalPodAutoscaler(hpa *domain.HorizontalPodAutoscaler) (*domain.HorizontalPodAutoscalerResponse, error)
+	Service(s *domain.Service) (*domain.ServiceResponse, error)
+	Job(job *domain.Job) (*domain.JobResponse, error)
+	ListPods(namespace string) ([]domain.PodResponse, error)
+	ClusterRole(cr *domain.ClusterRole) (*domain.ClusterRoleResponse, error)
+	ClusterRoleBinding(crb *domain.ClusterRoleBinding) (*domain.ClusterRoleBindingRespone, error)
+	Role(role *domain.Role) (*domain.RoleResponse, error)
+	RoleBinding(rb *domain.RoleBinding) (*domain.RoleBindingResponse, error)
+	ServiceAccount(sa *domain.ServiceAccount) (*domain.ServiceAccountResponse, error)
 }
 
-func NewK8sUseCase(d *k8sdomain.K8sDomain) K8sUseCase {
-	return K8sUseCaseImpl{
+func K8s(d *domain.K8s) Kubernetes {
+	return KubernetesImpl{
 		K8sDomain: *d,
 	}
 }
 
-func (k K8sUseCaseImpl) K8sDeployment(d *k8sdomain.Deployment) (*k8sdomain.DeploymentResponse, error) {
-	return k.K8sDomain.K8sDeployment(d)
+func (k KubernetesImpl) Deployment(d *domain.Deployment) (*domain.DeploymentResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sConfigMap(cm *k8sdomain.ConfigMap) (*k8sdomain.ConfigMapResponse, error) {
-	return k.K8sDomain.K8sConfigMap(cm)
+func (k KubernetesImpl) ConfigMap(cm *domain.ConfigMap) (*domain.ConfigMapResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sSecret(sec *k8sdomain.Secret) (*k8sdomain.SecretResponse, error) {
-	return k.K8sDomain.K8sSecret(sec)
+func (k KubernetesImpl) Secret(sec *domain.Secret) (*domain.SecretResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sCronjob(cj *k8sdomain.CronJob) (*k8sdomain.CronjobRespone, error) {
-	return k.K8sDomain.K8sCronjob(cj)
+func (k KubernetesImpl) Cronjob(cj *domain.CronJob) (*domain.CronjobRespone, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sHorizontalPodAutoscaler(hpa *k8sdomain.HorizontalPodAutoscaler) (*k8sdomain.HorizontalPodAutoscalerResponse, error) {
-	return k.K8sDomain.K8sHorizontalPodAutoscaler(hpa)
+func (k KubernetesImpl) HorizontalPodAutoscaler(hpa *domain.HorizontalPodAutoscaler) (*domain.HorizontalPodAutoscalerResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sService(s *k8sdomain.Service) (*k8sdomain.ServiceResponse, error) {
-	return k.K8sDomain.K8sService(s)
+func (k KubernetesImpl) Service(s *domain.Service) (*domain.ServiceResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sVirtualService(vs *k8sdomain.VirtualService) (*k8sdomain.VirtualServiceResponse, error) {
-	return k.K8sDomain.K8sVirtualService(vs)
+func (k KubernetesImpl) Job(job *domain.Job) (*domain.JobResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sJob(job *k8sdomain.Job) (*k8sdomain.JobResponse, error) {
-	return k.K8sDomain.K8sJob(job)
+func (k KubernetesImpl) ListPods(namespace string) ([]domain.PodResponse, error) {
+	return k.K8sDomain.ListPods("default")
 }
 
-func (k K8sUseCaseImpl) K8sPodsList(ns string) (*[]k8sdomain.PodResponse, error) {
-	return k.K8sDomain.K8sPodsList(ns)
+func (k KubernetesImpl) ClusterRole(cr *domain.ClusterRole) (*domain.ClusterRoleResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sClusterRole(cr *k8sdomain.ClusterRole) (*k8sdomain.ClusterRoleResponse, error) {
-	return k.K8sDomain.K8sClusterRole(cr)
+func (k KubernetesImpl) ClusterRoleBinding(crb *domain.ClusterRoleBinding) (*domain.ClusterRoleBindingRespone, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sClusterRoleBinding(crb *k8sdomain.ClusterRoleBinding) (*k8sdomain.ClusterRoleBindingRespone, error) {
-	return k.K8sDomain.K8sClusterRoleBinding(crb)
+func (k KubernetesImpl) Role(role *domain.Role) (*domain.RoleResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sRole(role *k8sdomain.Role) (*k8sdomain.RoleResponse, error) {
-	return k.K8sDomain.K8sRole(role)
+func (k KubernetesImpl) RoleBinding(rb *domain.RoleBinding) (*domain.RoleBindingResponse, error) {
+	panic("implement me")
 }
 
-func (k K8sUseCaseImpl) K8sRoleBinding(rb *k8sdomain.RoleBinding) (*k8sdomain.RoleBindingResponse, error) {
-	return k.K8sDomain.K8sRoleBinding(rb)
-}
-
-func (k K8sUseCaseImpl) K8sServiceAccount(sa *k8sdomain.ServiceAccount) (*k8sdomain.ServiceAccountResponse, error) {
-	return k.K8sDomain.K8sServiceAccount(sa)
-}
-
-func (k K8sUseCaseImpl) K8sCanaryFlagger(cf *k8sdomain.CanaryFlagger) (*k8sdomain.CanaryFlaggerResponse, error) {
-	return k.K8sDomain.K8sCanaryFlagger(cf)
+func (k KubernetesImpl) ServiceAccount(sa *domain.ServiceAccount) (*domain.ServiceAccountResponse, error) {
+	panic("implement me")
 }

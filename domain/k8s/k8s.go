@@ -1,17 +1,13 @@
 package k8s
 
 import (
-flaggerv1beta1 "github.com/fluxcd/flagger/pkg/apis/flagger/v1beta1"
-istiometav1alpha1 "istio.io/api/meta/v1alpha1"
-istioapiv1beta1 "istio.io/api/networking/v1beta1"
-networkingv1beta1 "istio.io/client-go/pkg/apis/networking/v1beta1"
-appsv1 "k8s.io/api/apps/v1"
-hpav1 "k8s.io/api/autoscaling/v1"
-batchv1 "k8s.io/api/batch/v1"
-batchv1beta1 "k8s.io/api/batch/v1beta1"
-corev1 "k8s.io/api/core/v1"
-rbacv1 "k8s.io/api/rbac/v1"
-metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	appsv1 "k8s.io/api/apps/v1"
+	hpav1 "k8s.io/api/autoscaling/v1"
+	batchv1 "k8s.io/api/batch/v1"
+	batchv1beta1 "k8s.io/api/batch/v1beta1"
+	corev1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type Deployment struct {
@@ -81,17 +77,6 @@ type Secret struct {
 
 type SecretResponse struct {
 	Secret *corev1.Secret
-}
-
-type VirtualService struct {
-	TypeMeta   map[string]string              `json:",inline"`
-	ObjectMeta metav1.ObjectMeta              `json:"metadata"`
-	Spec       istioapiv1beta1.VirtualService `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status     istiometav1alpha1.IstioStatus  `json:"status,omitempty"`
-}
-
-type VirtualServiceResponse struct {
-	VirtualService *networkingv1beta1.VirtualService
 }
 
 type Job struct {
@@ -171,31 +156,18 @@ type ServiceAccountResponse struct {
 	ServiceAccount *corev1.ServiceAccount `json:"serviceAccount"`
 }
 
-type CanaryFlagger struct {
-	TypeMeta   map[string]string `json:",inline"`
-	ObjectMeta metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              flaggerv1beta1.CanarySpec   `json:"spec"`
-	Status            flaggerv1beta1.CanaryStatus `json:"status"`
-}
-
-type CanaryFlaggerResponse struct {
-	CanaryFlagger *flaggerv1beta1.Canary `json:"canary"`
-}
-
-type K8sDomain interface {
-	K8sDeployment(d *Deployment) (*DeploymentResponse, error)
-	K8sConfigMap(cm *ConfigMap) (*ConfigMapResponse, error)
-	K8sSecret(sec *Secret) (*SecretResponse, error)
-	K8sCronjob(c *CronJob) (*CronjobRespone, error)
-	K8sHorizontalPodAutoscaler(h *HorizontalPodAutoscaler) (*HorizontalPodAutoscalerResponse, error)
-	K8sService(h *Service) (*ServiceResponse, error)
-	K8sVirtualService(h *VirtualService) (*VirtualServiceResponse, error)
-	K8sJob(j *Job) (*JobResponse, error)
-	K8sPodsList(ns string) (*[]PodResponse, error)
-	K8sClusterRole(cr *ClusterRole) (*ClusterRoleResponse, error)
-	K8sClusterRoleBinding(crb *ClusterRoleBinding) (*ClusterRoleBindingRespone, error)
-	K8sRole(r *Role) (*RoleResponse, error)
-	K8sRoleBinding(rb *RoleBinding) (*RoleBindingResponse, error)
-	K8sServiceAccount(sa *ServiceAccount) (*ServiceAccountResponse, error)
-	K8sCanaryFlagger(cf *CanaryFlagger) (*CanaryFlaggerResponse, error)
+type K8s interface {
+	Deployment(d *Deployment) (*DeploymentResponse, error)
+	ConfigMap(cm *ConfigMap) (*ConfigMapResponse, error)
+	Secret(sec *Secret) (*SecretResponse, error)
+	Cronjob(c *CronJob) (*CronjobRespone, error)
+	HorizontalPodAutoscaler(h *HorizontalPodAutoscaler) (*HorizontalPodAutoscalerResponse, error)
+	Service(h *Service) (*ServiceResponse, error)
+	Job(j *Job) (*JobResponse, error)
+	ListPods(namespace string) ([]PodResponse, error)
+	ClusterRole(cr *ClusterRole) (*ClusterRoleResponse, error)
+	ClusterRoleBinding(crb *ClusterRoleBinding) (*ClusterRoleBindingRespone, error)
+	Role(r *Role) (*RoleResponse, error)
+	RoleBinding(rb *RoleBinding) (*RoleBindingResponse, error)
+	ServiceAccount(sa *ServiceAccount) (*ServiceAccountResponse, error)
 }
